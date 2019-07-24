@@ -289,7 +289,7 @@ public class viewAllEvents extends javax.swing.JFrame {
         tblEventos.setModel(modelo);
         for(Events event: arrayEvents){
             String newValor[] = {event.getName(), event.getCost()+"", event.getDate()+"", event.getDescription(), event.getCategory().getCategoryName(),
-                event.getPlace().getPrincipalStreet(), event.getPlace().getSecondaryStreet(), event.getPlace().getReference(),event.getPlace().getNeighborhood()};
+                event.getPlace().getPrincipalStreet(), event.getPlace().getSecondaryStreet(), event.getPlace().getReference(),event.getPlace().getNeighborhood().getName()};
 
             modelo.addRow(newValor);
 

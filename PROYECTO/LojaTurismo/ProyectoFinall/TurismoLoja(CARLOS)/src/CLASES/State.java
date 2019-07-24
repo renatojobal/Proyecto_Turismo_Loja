@@ -45,6 +45,13 @@ public class State {
         this.description = observation;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s", getDescription());
+    }
+
+    
+    
     
     
 

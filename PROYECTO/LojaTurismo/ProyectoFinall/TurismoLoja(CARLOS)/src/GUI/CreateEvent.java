@@ -10,8 +10,10 @@ import BL.BLClient;
 import BL.BLEvent;
 import BL.BLNeighborhood;
 import BL.BLParish;
+import BL.BLState;
 import CLASES.Category;
 import CLASES.Client;
+import CLASES.State;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -36,17 +38,18 @@ public final class CreateEvent extends javax.swing.JFrame {
     //ArrayList<Events> arrayEvents = new ArrayList<Events>();
 //    Login_V3 objLogin_V3 = new Login_V3();
     Client objClient = new Client();
-
+    
     BLClient objBLClient = new BLClient();
     BLEvent objBLEvents = new BLEvent();
     BLNeighborhood objBLNeighborhood = new BLNeighborhood();
     int rowSel = -1;
-
+    
     public CreateEvent() {
         initComponents();
         this.setLocationRelativeTo(null);
         objClient = GlobalVariables.loggedClient;
-
+        this.getStates();
+        
     }
 
     /**
@@ -79,7 +82,6 @@ public final class CreateEvent extends javax.swing.JFrame {
         txtReferency = new javax.swing.JTextField();
         jDateChooser = new com.toedter.calendar.JDateChooser();
         jLabel11 = new javax.swing.JLabel();
-        txtnNeighborhod = new javax.swing.JTextField();
         jComboBoxHour = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -87,9 +89,10 @@ public final class CreateEvent extends javax.swing.JFrame {
         jComboBoxMinute = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
         jComboBoxParroquia = new javax.swing.JComboBox<>();
-        jLabel15 = new javax.swing.JLabel();
         jComboBoxBarrio = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
+        jComboBoxEstado = new javax.swing.JComboBox<>();
+        jLabel15 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jButtonMod = new javax.swing.JButton();
         jButtonNue = new javax.swing.JButton();
@@ -124,7 +127,7 @@ public final class CreateEvent extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tableEvents);
 
-        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 490, 670, 130));
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 480, 670, 130));
 
         txtNameEvent.setEnabled(false);
         jPanel2.add(txtNameEvent, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 270, -1));
@@ -193,10 +196,7 @@ public final class CreateEvent extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 102, 0));
         jLabel11.setText("Barrio");
-        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 450, -1, -1));
-
-        txtnNeighborhod.setEnabled(false);
-        jPanel2.add(txtnNeighborhod, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 410, 320, -1));
+        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 420, -1, -1));
 
         jComboBoxHour.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
         jComboBoxHour.setEnabled(false);
@@ -220,24 +220,40 @@ public final class CreateEvent extends javax.swing.JFrame {
         jLabel14.setText(":");
         jPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 150, 10, -1));
 
+        jComboBoxParroquia.setEnabled(false);
         jComboBoxParroquia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxParroquiaActionPerformed(evt);
             }
         });
-        jPanel2.add(jComboBoxParroquia, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 450, 180, -1));
+        jPanel2.add(jComboBoxParroquia, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 420, 180, -1));
 
-        jLabel15.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 102, 0));
-        jLabel15.setText("Barrio");
-        jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, -1, -1));
-
-        jPanel2.add(jComboBoxBarrio, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 450, 200, -1));
+        jComboBoxBarrio.setEnabled(false);
+        jComboBoxBarrio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxBarrioActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jComboBoxBarrio, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 420, 200, -1));
 
         jLabel16.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 102, 0));
         jLabel16.setText("Parroquia");
-        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, -1, -1));
+        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, -1, -1));
+
+        jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", " " }));
+        jComboBoxEstado.setEnabled(false);
+        jComboBoxEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxEstadoActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jComboBoxEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 230, -1, -1));
+
+        jLabel15.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 102, 0));
+        jLabel15.setText("Filtrar por estado");
+        jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 230, -1, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 13, 725, 630));
 
@@ -305,6 +321,8 @@ public final class CreateEvent extends javax.swing.JFrame {
         this.jButtonEli.setEnabled(true);
         this.jButtonMod.setEnabled(true);
         this.cbmCategory.removeAllItems();
+        this.jComboBoxParroquia.removeAllItems();
+        this.jComboBoxBarrio.removeAllItems();
         rowSel = tableEvents.getSelectedRow();
         this.txtNameEvent.setText(tableEvents.getValueAt(rowSel, 0).toString());
         this.SpnCosto.setValue(Double.parseDouble(tableEvents.getValueAt(rowSel, 1).toString()));
@@ -316,7 +334,11 @@ public final class CreateEvent extends javax.swing.JFrame {
         this.txtPrinStr.setText(tableEvents.getValueAt(rowSel, 6).toString());
         this.txtSecStr.setText(tableEvents.getValueAt(rowSel, 7).toString());
         this.txtReferency.setText(tableEvents.getValueAt(rowSel, 8).toString());
-        this.txtnNeighborhod.setText(tableEvents.getValueAt(rowSel, 9).toString());
+//        this.jComboBoxParroquia.actionPerformed(null);
+//        this.jComboBoxParroquia.addItem(objClient.getArrayEvents().get(rowSel).getPlace().getNeighborhood().getParish().getName());
+        this.jComboBoxBarrio.addItem(tableEvents.getValueAt(rowSel, 9).toString());
+
+        //this.txtnNeighborhod.setText(tableEvents.getValueAt(rowSel, 9).toString());
     }//GEN-LAST:event_tableEventsMouseClicked
 
     private void jButtonModActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModActionPerformed
@@ -337,7 +359,6 @@ public final class CreateEvent extends javax.swing.JFrame {
                 this.txtPrinStr.setEnabled(false);
                 this.txtSecStr.setEnabled(false);
                 this.txtReferency.setEnabled(false);
-                this.txtnNeighborhod.setEnabled(false);
                 this.jButtonNue.setEnabled(true);
                 this.jButtonEli.setEnabled(false);
                 this.jButtonLis.setEnabled(true);
@@ -346,10 +367,10 @@ public final class CreateEvent extends javax.swing.JFrame {
                 Date date = Date.valueOf(df.format(this.jDateChooser.getDate()));
                 String hour = this.jComboBoxHour.getSelectedItem().toString();
                 String minute = this.jComboBoxMinute.getSelectedItem().toString();
-
+                
                 Events objTmpEvents = objBLEvents.createEVENT(0, this.txtNameEvent.getText(), Double.parseDouble(this.SpnCosto.getValue().toString()),
                         date, hour, minute, this.txtDescription.getText(), (Category) this.cbmCategory.getSelectedItem(),
-                        0, this.txtPrinStr.getText(), this.txtSecStr.getText(), this.txtReferency.getText(), this.txtnNeighborhod.getText(),
+                        0, this.txtPrinStr.getText(), this.txtSecStr.getText(), this.txtReferency.getText(), (Neighborhood) this.jComboBoxBarrio.getSelectedItem(),
                         null);
                 try {
                     objBLEvents.updateEventDB(objClient.getArrayEvents().get(rowSel), objTmpEvents);
@@ -371,14 +392,13 @@ public final class CreateEvent extends javax.swing.JFrame {
                 this.cbmCategory.setEnabled(true);
                 this.txtPrinStr.setEnabled(true);
                 this.txtSecStr.setEnabled(true);
-                this.txtnNeighborhod.setEnabled(true);
                 this.txtReferency.setEnabled(true);
                 this.jButtonNue.setEnabled(false);
                 this.jButtonEli.setEnabled(false);
                 this.jButtonLis.setEnabled(false);
                 this.jButtonCan.setEnabled(true);
             }
-
+            
         }
 
     }//GEN-LAST:event_jButtonModActionPerformed
@@ -387,16 +407,16 @@ public final class CreateEvent extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         if (this.jButtonNue.getText().equals("Guardar")) {
-
+            
             try {
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = Date.valueOf(df.format(this.jDateChooser.getDate()));
                 String hour = this.jComboBoxHour.getSelectedItem().toString();
                 String minute = this.jComboBoxMinute.getSelectedItem().toString();
-
+                
                 objClient.setEvent(0, this.txtNameEvent.getText(), Double.parseDouble(this.SpnCosto.getValue().toString()),
                         date, hour, minute, this.txtDescription.getText(), (Category) this.cbmCategory.getSelectedItem(),
-                        0, this.txtPrinStr.getText(), this.txtSecStr.getText(), this.txtReferency.getText(), this.txtnNeighborhod.getText(),
+                        0, this.txtPrinStr.getText(), this.txtSecStr.getText(), this.txtReferency.getText(), (Neighborhood) this.jComboBoxBarrio.getSelectedItem(),
                         null);
                 objBLEvents.insertEvent(objClient);
                 JOptionPane.showMessageDialog(null, "Evento Guardado con exito");
@@ -415,7 +435,6 @@ public final class CreateEvent extends javax.swing.JFrame {
             this.txtPrinStr.setEnabled(false);
             this.txtSecStr.setEnabled(false);
             this.txtReferency.setEnabled(false);
-            this.txtnNeighborhod.setEnabled(false);
             this.jButtonMod.setEnabled(true);
             this.jButtonCan.setEnabled(false);
             this.jButtonEli.setEnabled(true);
@@ -428,17 +447,19 @@ public final class CreateEvent extends javax.swing.JFrame {
             } catch (SQLException | ClassNotFoundException ex) {
                 Logger.getLogger(CreateEvent.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
             this.jButtonNue.setText("Guardar");
             this.txtNameEvent.setText("");
             this.SpnCosto.setValue(0);
             this.jDateChooser.setDate(new java.util.Date());
             this.jComboBoxHour.setSelectedIndex(0);
             this.jComboBoxMinute.setSelectedIndex(0);
+            this.jComboBoxParroquia.setEnabled(true);
+            this.jComboBoxBarrio.setEnabled(true);
             this.txtDescription.setText("");
             this.txtPrinStr.setText("");
             this.txtSecStr.setText("");
             this.txtReferency.setText("");
-            this.txtnNeighborhod.setText("");
             this.txtNameEvent.setEnabled(true);
             this.SpnCosto.setEnabled(true);
             this.jDateChooser.setEnabled(true);
@@ -449,7 +470,6 @@ public final class CreateEvent extends javax.swing.JFrame {
             this.txtPrinStr.setEnabled(true);
             this.txtSecStr.setEnabled(true);
             this.txtReferency.setEnabled(true);
-            this.txtnNeighborhod.setEnabled(true);
             this.jButtonMod.setEnabled(false);
             this.jButtonCan.setEnabled(true);
             this.jButtonEli.setEnabled(false);
@@ -458,16 +478,16 @@ public final class CreateEvent extends javax.swing.JFrame {
 
     private void jButtonLisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLisActionPerformed
         getEvents();
-
+        this.jComboBoxEstado.setEnabled(true);
 
     }//GEN-LAST:event_jButtonLisActionPerformed
 
     private void jButtonSalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalActionPerformed
-
+        
         OptionClient objOptionClient = new OptionClient();
         objOptionClient.setVisible(true);
         this.setVisible(false);
-
+        
 
     }//GEN-LAST:event_jButtonSalActionPerformed
 
@@ -489,9 +509,8 @@ public final class CreateEvent extends javax.swing.JFrame {
         this.txtPrinStr.setEnabled(false);
         this.txtSecStr.setEnabled(false);
         this.txtReferency.setEnabled(false);
-        this.txtnNeighborhod.setEnabled(false);
         this.jButtonCan.setEnabled(false);
-
+        
 
     }//GEN-LAST:event_jButtonCanActionPerformed
 
@@ -506,8 +525,8 @@ public final class CreateEvent extends javax.swing.JFrame {
             } catch (SQLException | ClassNotFoundException ex) {
                 Logger.getLogger(CreateEvent.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-        }else{
+            
+        } else {
             this.jButtonMod.setEnabled(true);
         }
 //        
@@ -522,6 +541,16 @@ public final class CreateEvent extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBoxParroquiaActionPerformed
 
+    private void jComboBoxEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxEstadoActionPerformed
+        // TODO add your handling code here:
+        this.filterTableByState((State) this.jComboBoxEstado.getSelectedItem());
+
+    }//GEN-LAST:event_jComboBoxEstadoActionPerformed
+
+    private void jComboBoxBarrioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxBarrioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxBarrioActionPerformed
+    
     public void getEvents() {
         Object columnas[] = {"Nombre Evento", "Costo", "Fecha", "Hora de inicio", "Categoria", "Descripcion",
             "Calle Principal", "Calle Secundaria", "Referencia", "Barrio"};
@@ -540,18 +569,19 @@ public final class CreateEvent extends javax.swing.JFrame {
                     objEvents.getPlace().getPrincipalStreet(),
                     objEvents.getPlace().getSecondaryStreet(),
                     objEvents.getPlace().getReference(),
-                    objEvents.getPlace().getNeighborhood(), //objEvents.getState().getDescription()
-            };
+                    objEvents.getPlace().getNeighborhood().getName()
+            
+                };
                 modelo.addRow(NewValor);
             }
-
+            
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(CreateEvent.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.tableEvents.setModel(modelo);
-
+        
     }
-
+    
     public void getCategories() {
         BLCategory objBLCategory = new BLCategory();
         ArrayList<Category> listCategories = new ArrayList<Category>();
@@ -573,8 +603,9 @@ public final class CreateEvent extends javax.swing.JFrame {
         try {
             objBLParish.getParishes(listParishes);
             DefaultComboBoxModel modParishes = new DefaultComboBoxModel();
-            for (Parish p:listParishes)
+            for (Parish p : listParishes) {
                 modParishes.addElement(p);
+            }
             jComboBoxParroquia.setModel(modParishes);
             //MostrarCantones((Provincia)cmbProvincia.getSelectedItem());
         } catch (SQLException e) {
@@ -583,15 +614,31 @@ public final class CreateEvent extends javax.swing.JFrame {
     }
     
     public void getNeighborhoods(Parish objParishSel) throws SQLException, ClassNotFoundException {
-   
+        
         ArrayList<Neighborhood> listNeighborhoods = new ArrayList<Neighborhood>();
         listNeighborhoods = objBLNeighborhood.getNeighborhoods(objParishSel, listNeighborhoods);
         
         DefaultComboBoxModel modNeighborhoods = new DefaultComboBoxModel();
-        for (Neighborhood n:listNeighborhoods)
+        for (Neighborhood n : listNeighborhoods) {
             modNeighborhoods.addElement(n);
+        }
         jComboBoxBarrio.setModel(modNeighborhoods);
         
+    }
+    
+    private void getStates() {
+        BLState objBLState = new BLState();
+        ArrayList<State> listStates = new ArrayList<State>();
+        try {
+            objBLState.getStates(listStates);
+            DefaultComboBoxModel ModStates = new DefaultComboBoxModel();
+            for (State s : listStates) {
+                ModStates.addElement(s);
+            }
+            this.jComboBoxEstado.setModel(ModStates);
+        } catch (SQLException e) {
+            System.err.println("error");
+        }
     }
 
     /**
@@ -628,6 +675,23 @@ public final class CreateEvent extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void filterTableByState(State objTargetState) {
+        
+        tableEvents.removeAll();
+        
+        Object columnas[] = {"Nombre", "Costo", "Fecha", "Descripcion", "Categoria", "Calle Principal", "Calle Secundaria", "Referencia", "Barrio"};
+        DefaultTableModel modelo = new DefaultTableModel(null, columnas);
+        tableEvents.setModel(modelo);
+        for (Events event : objClient.getArrayEvents()) {
+            if (event.getState().getState() == objTargetState.getState()) {
+                String newValor[] = {event.getName(), event.getCost() + "", event.getDate() + "", event.getDescription(), event.getCategory().getCategoryName(),
+                    event.getPlace().getPrincipalStreet(), event.getPlace().getSecondaryStreet(), event.getPlace().getReference(), event.getPlace().getNeighborhood().getName()};
+                modelo.addRow(newValor);
+            }
+            
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner SpnCosto;
@@ -639,6 +703,7 @@ public final class CreateEvent extends javax.swing.JFrame {
     private javax.swing.JButton jButtonNue;
     private javax.swing.JButton jButtonSal;
     private javax.swing.JComboBox<String> jComboBoxBarrio;
+    private javax.swing.JComboBox<String> jComboBoxEstado;
     private javax.swing.JComboBox<String> jComboBoxHour;
     private javax.swing.JComboBox<String> jComboBoxMinute;
     private javax.swing.JComboBox<String> jComboBoxParroquia;
@@ -668,7 +733,6 @@ public final class CreateEvent extends javax.swing.JFrame {
     private javax.swing.JTextField txtPrinStr;
     private javax.swing.JTextField txtReferency;
     private javax.swing.JTextField txtSecStr;
-    private javax.swing.JTextField txtnNeighborhod;
     // End of variables declaration//GEN-END:variables
 
 }

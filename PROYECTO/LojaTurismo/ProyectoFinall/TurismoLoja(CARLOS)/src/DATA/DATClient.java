@@ -28,6 +28,7 @@ public class DATClient {
                 +"'" +ObjCli.getLastnames()+"'" + ","
                 +"'" +ObjCli.getMail()+"'" + ","
                 + ObjCli.getNumberPhone() + ")" ;
+        System.out.println(Sentencia);
         intRetorno = st.executeUpdate(Sentencia);
         return intRetorno;
     }

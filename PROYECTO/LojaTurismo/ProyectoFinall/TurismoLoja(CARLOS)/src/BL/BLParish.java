@@ -32,10 +32,10 @@ public class BLParish {
         }
     }
     
-    public Parish findParishDB(String idPlace) throws ClassNotFoundException, SQLException 
+    public Parish findParishDB(String idParish) throws ClassNotFoundException, SQLException 
     {
         Parish objParish = new Parish();
-        ResultSet rs = objDatParish.findParish(idPlace);
+        ResultSet rs = objDatParish.findParish(idParish);
         ResultSetMetaData rm = rs.getMetaData();
         //Recupera los campos de la tabla
         int columnCount = rm.getColumnCount();

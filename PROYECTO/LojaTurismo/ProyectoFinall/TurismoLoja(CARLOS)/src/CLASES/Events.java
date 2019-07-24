@@ -23,7 +23,7 @@ public class Events {
     }
 
     public Events(int idEvents, String name, double cost, Date date, String hour,String minutes,String description, Category category, 
-            int idPlace, String principalStreet, String secondaryStreet, String reference, String neighborhood, State state) {
+            int idPlace, String principalStreet, String secondaryStreet, String reference, Neighborhood neighborhood, State state) {
         this.idEvents = idEvents;
         this.name = name;
         this.cost = cost;

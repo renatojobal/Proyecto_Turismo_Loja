@@ -53,7 +53,7 @@ public class BLState {
     
     
     
-    public void getCategories(ArrayList<State> listStates) throws SQLException {
+    public void getStates(ArrayList<State> listStates) throws SQLException {
         DATState objDatSate = new DATState();
         ResultSet rs = objDatSate.getStates();
         while (rs.next()) {

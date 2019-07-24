@@ -1,11 +1,18 @@
-
+package BL;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class BLEncrypt {
 
-    public static String getEncrypt(String input) {
+    public BLEncrypt() {
+        
+        
+    }
+    
+ 
+
+    public String getEncrypt(String input) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] messageDigest = md.digest(input.getBytes());
@@ -16,6 +23,8 @@ public class BLEncrypt {
                 hashtext = "0" + hashtext;
             }
             return hashtext;
+            
+            
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }

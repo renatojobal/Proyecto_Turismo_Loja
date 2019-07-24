@@ -27,4 +27,12 @@ public class DATNeighborhood {
         }
     }
     
+    public ResultSet findNeighborhood(String idNeighborhood) throws ClassNotFoundException, SQLException
+    {
+        Statement st = c.abrirConexion().createStatement();
+        String Sentencia = "SELECT * FROM NEIGHBORHOOD WHERE IDNEIGHBORHOOD = " + idNeighborhood ;
+        ResultSet rs = st.executeQuery(Sentencia);
+        return rs;
+    }
+    
 }

@@ -30,7 +30,7 @@ public class DATAdmin {
     public ResultSet findIdentification(String user) throws ClassNotFoundException, SQLException
     {
         Statement st = c.abrirConexion().createStatement();
-        String Sentencia = "SELECT * FROM ADMIN WHERE USER = " + user ;
+        String Sentencia = String.format("SELECT * FROM admin WHERE user = '%s'", user);
         ResultSet rs = st.executeQuery(Sentencia);
         return rs;
     }

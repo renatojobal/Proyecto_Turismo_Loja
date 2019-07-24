@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.sql.Date;
 import CLASES.Client;
 import CLASES.Events;
+import CLASES.Neighborhood;
 import CLASES.Place;
 import CLASES.State;
 import DATA.DATEvent;
@@ -32,7 +33,7 @@ public class BLEvent {
     static Place objPlace = new Place();
     // Method to create a client organization
     public Events createEVENT(int idEvents, String name, double cost, Date date, String hour,String minutes,String description, Category category, 
-            int idPlace, String principalStreet, String secondaryStreet, String reference, String neighborhood, State state) {
+            int idPlace, String principalStreet, String secondaryStreet, String reference, Neighborhood neighborhood, State state) {
         
         Events newEvent = new Events(idEvents, name, cost, date, hour, minutes, description,category, idPlace, 
                 principalStreet, secondaryStreet, reference,neighborhood,state);

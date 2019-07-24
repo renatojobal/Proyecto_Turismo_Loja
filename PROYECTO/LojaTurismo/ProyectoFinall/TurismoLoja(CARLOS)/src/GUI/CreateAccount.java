@@ -203,7 +203,7 @@ public class CreateAccount extends javax.swing.JFrame {
 
                 Client objClientTemp = ObjBLCli.createClient(this.txtIidentification.getText(), String.valueOf(this.txtPasswordConf.getPassword()),
                         this.txtName.getText(), this.txtLastName.getText(), this.txtEmail1.getText(), this.txtNumber.getText());
-                int result = ObjBLCli.insertClientDB(objClientTemp);
+                objClient = ObjBLCli.updateClientDB(objClient, objClientTemp);
                 JOptionPane.showMessageDialog(null, "ACTUALIZADO CON EXITO");
             } catch (SQLException | ClassNotFoundException ex) {
                 Logger.getLogger(CreateAccount.class.getName()).log(Level.SEVERE, null, ex);
@@ -243,13 +243,19 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
-        Client auxObjClient = ObjBLCli.createClient(this.txtIidentification.getText(), String.valueOf(this.txtPasswordConf.getPassword()),
-                this.txtName.getText(), this.txtLastName.getText(), this.txtEmail1.getText(), this.txtNumber.getText());
-        try {
-            ObjBLCli.insertClientDB(auxObjClient);
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(CreateAccount.class.getName()).log(Level.SEVERE, null, ex);
+        // TODO add your handling code here:
+        if (ObjBLCli.validadorDeCedula(this.txtIidentification.getText()) || verifyPasswords()) {
+            Client auxObjClient = ObjBLCli.createClient(this.txtIidentification.getText(), String.valueOf(this.txtPasswordConf.getPassword()),
+                    this.txtName.getText(), this.txtLastName.getText(), this.txtEmail1.getText(), this.txtNumber.getText());
+
+            try {
+                ObjBLCli.insertClientDB(auxObjClient);
+            } catch (SQLException | ClassNotFoundException ex) {
+                Logger.getLogger(CreateAccount.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+
+
     }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
     public void validateLogin() {
@@ -288,6 +294,19 @@ public class CreateAccount extends javax.swing.JFrame {
             this.btnCancelar.setVisible(false);
             this.btnCancelar.setEnabled(false);
         }
+    }
+    
+    private boolean verifyPasswords(){
+        String password = this.txtPassword.getText();
+        String confirmPassword = this.txtPasswordConf.getText();
+        if(password.equals(confirmPassword)){
+            return true;
+        }else{
+            JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+            return false;
+            
+        }
+    
     }
 
     /**

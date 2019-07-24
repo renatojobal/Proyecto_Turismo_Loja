@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class BLPlace {
     
     static DATPlace objDatPlace = new DATPlace();
+    static BLNeighborhood objBLNeighborhood = new BLNeighborhood();
     
     public Place findPlaceDB(String idPlace) throws ClassNotFoundException, SQLException 
     {
@@ -45,11 +46,14 @@ public class BLPlace {
                     objPlace.setPrincipalStreet(value);
                 if (columnName.equals("secondaryStreet"))
                     objPlace.setSecondaryStreet(value);
-                if (columnName.equals("reference"))
+                if (columnName.equals("reference")){
                     objPlace.setReference(value);
-                if (columnName.equals("neighborhood"))
-                    objPlace.setNeighborhood(value);
-            }           
+                }
+                if (columnName.equals("idNeighborhood")){
+                    objPlace.setNeighborhood(objBLNeighborhood.findNeighborhoodDB(value));
+                }
+            }
+            
         }
         return objPlace;
     }
@@ -97,7 +101,7 @@ public class BLPlace {
                 if (columnName.equals("reference"))
                     objPlace.setReference(value);
                 if (columnName.equals("neighborhood"))
-                    objPlace.setNeighborhood(value);
+                    objPlace.setNeighborhood(objBLNeighborhood.findNeighborhoodDB(value));
             }           
         }
         return objPlace;

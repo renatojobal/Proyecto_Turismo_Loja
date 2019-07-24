@@ -30,22 +30,16 @@ public class DATPlace {
     }
     
     
-    public static boolean insertPlace(Place objPlace) throws ClassNotFoundException, SQLException{
-        PreparedStatement ps = null;
-        Connection con = c.abrirConexion();
-        String sql = "INSERT INTO PLACE(principalStreet,secondaryStreet,reference,neighborhood) VALUES (?,?,?,?)";
-        try {
-            ps = con.prepareStatement(sql);
-            ps.setString(1, objPlace.getPrincipalStreet());
-            ps.setString(2, objPlace.getSecondaryStreet());
-            ps.setString(3, objPlace.getReference());
-            ps.setString(4, objPlace.getNeighborhood());
-            ps.execute();
-            return true ;
-        } catch (SQLException e) {
-            System.err.println(e);
-        }  
-        return false;
+    public static int insertPlace(Place objPlace) throws ClassNotFoundException, SQLException{
+        int intRetorno=0;
+        Statement st = c.getConnection().createStatement();
+        String Sentencia = "INSERT InTO Place (principalStreet, secondaryStreet, reference, idNeighborhood)  VALUES ( " 
+                +"'" +objPlace.getPrincipalStreet()+"'"  + "," 
+                +"'" +objPlace.getSecondaryStreet()+"'" + ","
+                +"'" +objPlace.getReference()+"'" + ","
+                + objPlace.getNeighborhood().getIdNeighborhood() + ")" ;
+        intRetorno = st.executeUpdate(Sentencia);
+        return intRetorno;
     }
     public int updatePlace(Place objPlace, Place objTmpPlace) throws SQLException, ClassNotFoundException{
         int intRetorno=0;
@@ -53,7 +47,7 @@ public class DATPlace {
         String Sentencia = "UPDATE Place set principalStreet = '" +objTmpPlace.getPrincipalStreet() + "'" + ","
                 + " secondaryStreet = '" +objTmpPlace.getSecondaryStreet() +"'" + ","
                 + " reference = '" +objTmpPlace.getReference() +"'" + ","
-                + " neighborhood = '" +objTmpPlace.getNeighborhood() +
+                + " idNeighborhood = '" +objTmpPlace.getNeighborhood() +
                 "' where idPlace = '" + objPlace.getIdPlace()+"'";
         
         intRetorno = st.executeUpdate(Sentencia);
@@ -68,17 +62,18 @@ public class DATPlace {
         intRetorno = st.executeUpdate(Sentencia);
         return intRetorno;
     }
-    public int Insertar(Place objPlace) throws SQLException, ClassNotFoundException{
-        int intRetorno=0;
-        Statement st = c.getConnection().createStatement();
-        String Sentencia = "INSERT InTO Place (principalStreet, secondaryStreet, reference, neighborhood)  VALUES ( " 
-                +"'" +objPlace.getPrincipalStreet()+"'"  + "," 
-                +"'" +objPlace.getSecondaryStreet()+"'" + ","
-                +"'" +objPlace.getReference()+"'" + ","
-                + objPlace.getNeighborhood() + ")" ;
-        intRetorno = st.executeUpdate(Sentencia);
-        return intRetorno;
-    }
+//    public int Insertar(Place objPlace) throws SQLException, ClassNotFoundException{
+//        int intRetorno=0;
+//        Statement st = c.getConnection().createStatement();
+//        String Sentencia = "INSERT InTO Place (principalStreet, secondaryStreet, reference, idNeighborhood)  VALUES ( " 
+//                +"'" +objPlace.getPrincipalStreet()+"'"  + "," 
+//                +"'" +objPlace.getSecondaryStreet()+"'" + ","
+//                +"'" +objPlace.getReference()+"'" + ","
+//                + objPlace.getNeighborhood().getIdNeighborhood() + ")" ;
+//        intRetorno = st.executeUpdate(Sentencia);
+//        return intRetorno;
+//    }
+    
     public ResultSet findLastRow() throws ClassNotFoundException, SQLException
     {
         Statement st = c.abrirConexion().createStatement();

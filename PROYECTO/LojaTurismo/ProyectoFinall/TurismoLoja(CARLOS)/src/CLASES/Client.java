@@ -31,7 +31,7 @@ public class Client {
     
     public Client(int idClient,String identification, String password, String names, String lastnames, String mail, String numberPhone,
             int idEvents, String name, double cost, Date date, String hour, String minutes, String description, Category category,
-            int idPlace, String principalStreet, String secondaryStreet, String reference, String neighborhood, State state) {
+            int idPlace, String principalStreet, String secondaryStreet, String reference,Neighborhood neighborhood, State state) {
         this.idClient = idClient;
         this.identification = identification;
         this.password = password;
@@ -45,7 +45,7 @@ public class Client {
     
     
     public void setEvent(int idEvents, String name, double cost, Date date, String hour, String minutes, String description, Category category,
-            int idPlace, String principalStreet, String secondaryStreet, String reference, String neighborhood, State state){
+            int idPlace, String principalStreet, String secondaryStreet, String reference, Neighborhood neighborhood, State state){
         
         arrayEvents.add(new Events(idEvents, name, cost, date, hour, minutes, description, 
                 category, idPlace, principalStreet, secondaryStreet, reference, neighborhood, state));

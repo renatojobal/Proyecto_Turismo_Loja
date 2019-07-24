@@ -10,14 +10,14 @@ public class Place {
     private String principalStreet;
     private String secondaryStreet;
     private String reference;
-    private String neighborhood;
+    private Neighborhood neighborhood;
     
 
 
     public Place() {
     }
 
-    public Place(int idPlace, String principalStreet, String secondaryStreet, String reference, String neighborhood) {
+    public Place(int idPlace, String principalStreet, String secondaryStreet, String reference, Neighborhood neighborhood) {
         this.idPlace = idPlace;
         this.principalStreet = principalStreet;
         this.secondaryStreet = secondaryStreet;
@@ -57,17 +57,17 @@ public class Place {
         this.reference = reference;
     }
 
-    public String getNeighborhood() {
+    public Neighborhood getNeighborhood() {
         return neighborhood;
     }
 
-    public void setNeighborhood(String neighborhood) {
+    public void setNeighborhood(Neighborhood neighborhood) {
         this.neighborhood = neighborhood;
     }
 
     @Override
     public String toString() {
-        return "Place{" + "idPlace=" + idPlace + ", principalStreet=" + principalStreet + ", secondaryStreet=" + secondaryStreet + ", reference=" + reference + ", neighborhood=" + neighborhood + '}';
+        return "Place{" + "idPlace=" + idPlace + ", principalStreet=" + principalStreet + ", secondaryStreet=" + secondaryStreet + ", reference=" + reference + ", neighborhood=" + neighborhood.getIdNeighborhood() + '}';
     }
 
 
