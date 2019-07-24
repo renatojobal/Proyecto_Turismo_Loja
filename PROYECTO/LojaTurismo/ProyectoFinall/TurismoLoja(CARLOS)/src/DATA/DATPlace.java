@@ -30,7 +30,7 @@ public class DATPlace {
     }
     
     
-    public static int insertPlace(Place objPlace) throws ClassNotFoundException, SQLException{
+    public int insertPlace(Place objPlace) throws ClassNotFoundException, SQLException{
         int intRetorno=0;
         Statement st = c.getConnection().createStatement();
         String Sentencia = "INSERT InTO Place (principalStreet, secondaryStreet, reference, idNeighborhood)  VALUES ( " 

@@ -21,26 +21,29 @@ import java.util.ArrayList;
 public class BLNeighborhood {
 
     static BLParish objBLParish = new BLParish();
-    ArrayList<Neighborhood> auxListNeigh = new ArrayList<Neighborhood>();
     static DATNeighborhood objDATNeighborhood = new DATNeighborhood();
     
-    public void getAllNeihgborhoods() throws SQLException, ClassNotFoundException{
- 
+    public ArrayList<Neighborhood> getAllNeihgborhoods() throws SQLException, ClassNotFoundException{
+        ArrayList<Neighborhood> auxListNeigh = new ArrayList<Neighborhood>();
         ResultSet rs = objDATNeighborhood.getNeighborhoods();
         while (rs.next()) {
             Neighborhood objNeighborhood = new Neighborhood(rs.getInt(1), rs.getString(2), objBLParish.findParishDB(rs.getString(3)));
             auxListNeigh.add(objNeighborhood);
         }
+        return auxListNeigh;
     }
     
     public ArrayList<Neighborhood> getNeighborhoods(Parish objParish, ArrayList<Neighborhood> listNeighborhoods) throws SQLException, ClassNotFoundException {
-
-        for (Neighborhood neighborhood : auxListNeigh) {
+        
+        ArrayList<Neighborhood> auxListNeigh = new ArrayList<Neighborhood>();
+        for (Neighborhood neighborhood : listNeighborhoods) {
             if (neighborhood.getParish().getIdParish() == objParish.getIdParish()) {
-                listNeighborhoods.add(neighborhood);
+                
+                auxListNeigh.add(neighborhood);
             }
+            
         }
-        return listNeighborhoods;
+        return auxListNeigh;
     }
     
     public Neighborhood findNeighborhoodDB(String idNeighborhood) throws ClassNotFoundException, SQLException 

@@ -243,7 +243,6 @@ public class CreateAccount extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
-        // TODO add your handling code here:
         if (ObjBLCli.validadorDeCedula(this.txtIidentification.getText()) || verifyPasswords()) {
             Client auxObjClient = ObjBLCli.createClient(this.txtIidentification.getText(), String.valueOf(this.txtPasswordConf.getPassword()),
                     this.txtName.getText(), this.txtLastName.getText(), this.txtEmail1.getText(), this.txtNumber.getText());
@@ -254,8 +253,6 @@ public class CreateAccount extends javax.swing.JFrame {
                 Logger.getLogger(CreateAccount.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
-
     }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
     public void validateLogin() {

@@ -95,7 +95,7 @@ public class BLEvent {
         return ArrayEvents;
     }
 
-    public static void insertEvent(Client objClient) throws ClassNotFoundException, SQLException {
+    public void insertEvent(Client objClient) throws ClassNotFoundException, SQLException {
         objPlace = objClient.getArrayEvents().get(objClient.getArrayEvents().size() - 1).getPlace();
         objBLPlace.insertPlaceDB(objPlace);
         objClient.getArrayEvents().get(objClient.getArrayEvents().size() - 1).setPlace(objBLPlace.finLastRowDB());

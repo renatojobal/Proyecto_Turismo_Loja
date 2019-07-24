@@ -58,7 +58,7 @@ public class BLPlace {
         return objPlace;
     }
     
-    public static boolean insertPlaceDB(Place objPlace) throws SQLException, ClassNotFoundException{
+    public boolean insertPlaceDB(Place objPlace) throws SQLException, ClassNotFoundException{
         
         objDatPlace.insertPlace(objPlace);
         return false;
