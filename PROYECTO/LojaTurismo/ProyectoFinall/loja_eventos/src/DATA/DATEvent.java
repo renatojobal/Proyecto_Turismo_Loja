@@ -14,27 +14,27 @@ import java.sql.Statement;
 
 /*
 Autor: Grupo2
-*/
+ */
 public class DATEvent {
-    
-    static DATConexion c = new DATConexion();
-    
+
     // Metodo que permite buscar los eventos de un cliente mediante su identificacion
-    public static ResultSet findEventsClient(String identification) throws ClassNotFoundException, SQLException
-    {
-        Statement st = c.abrirConexion().createStatement();
-        
-        String Sentencia ="select event.idEvent,nameEvent, cost, date, hour, minutes, description, idCat, idPlace, idState from client, event "
-                + "where client.idClient = event.idClient and client.identification = "+identification +" order by 1" ;
+    public static ResultSet findEventsClient(String identification) throws ClassNotFoundException, SQLException {
+        DATConexion objDATConexion = new DATConexion();
+        Statement st = objDATConexion.abrirConexion().createStatement();
+
+        String Sentencia = "select event.idEvent,nameEvent, cost, date, hour, minutes, description, idCat, idPlace, idState from client, event "
+                + "where client.idClient = event.idClient and client.identification = " + identification + " order by 1";
         ResultSet rs = st.executeQuery(Sentencia);
+        objDATConexion.cerrarConexion();
         return rs;
     }
-  
+
     // Metodo que permite insertar un evento en la DB
-    public static boolean insertEvent(Events objEvents, int IdCli) 
-             throws ClassNotFoundException, SQLException{
+    public static boolean insertEvent(Events objEvents, int IdCli)
+            throws ClassNotFoundException, SQLException {
         PreparedStatement ps = null;
-        Connection con = c.abrirConexion();
+        DATConexion objDATConexion = new DATConexion();
+        Connection con = objDATConexion.abrirConexion();
         String sql = "INSERT INTO EVENT(nameEvent, cost, date, hour, minutes, description, idCat, idPlace, idClient, idState, idAdmin) "
                 + "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
         try {
@@ -51,87 +51,94 @@ public class DATEvent {
             ps.setInt(10, 1);
             ps.setInt(11, 1);
             ps.execute();
-            return true ;
+            objDATConexion.cerrarConexion();
+            return true;
         } catch (Exception e) {
             System.err.println(e);
-        }  
+        } finally {
+            objDATConexion.cerrarConexion();
+        }
         return false;
-    } 
-    
+    }
+
     // Metodo que actualiza los datos del evento
-    public int updateEvent(Events objEvents, Events objTmpEvents) throws SQLException, ClassNotFoundException{
-        int intRetorno=0;
-        Statement st = c.abrirConexion().createStatement();
-        String Sentencia = "UPDATE Event set nameEvent = '" +objTmpEvents.getName() + "'" + ","
-                + " cost = '" +objTmpEvents.getCost() +"'" + ","
-                + " date = '" +objTmpEvents.getDate() +"'" + ","
-                + " hour = '" +objTmpEvents.getHour() +"'" + ","
-                + " minutes = '" +objTmpEvents.getMinutes() +"'" + ","
-                + " description = '" +objTmpEvents.getDescription() +"'" + ","
-                + " idCat = '" +objTmpEvents.getCategory().getIdCat() +"'" + ","
-                + " idPlace = '" +objTmpEvents.getPlace().getIdPlace() +
-                "' where idEvent = '" + objEvents.getIdEvents()+"'";
-        
+    public int updateEvent(Events objEvents, Events objTmpEvents) throws SQLException, ClassNotFoundException {
+        DATConexion objDATConexion = new DATConexion();
+        int intRetorno = 0;
+        Statement st = objDATConexion.abrirConexion().createStatement();
+        String Sentencia = "UPDATE Event set nameEvent = '" + objTmpEvents.getName() + "'" + ","
+                + " cost = '" + objTmpEvents.getCost() + "'" + ","
+                + " date = '" + objTmpEvents.getDate() + "'" + ","
+                + " hour = '" + objTmpEvents.getHour() + "'" + ","
+                + " minutes = '" + objTmpEvents.getMinutes() + "'" + ","
+                + " description = '" + objTmpEvents.getDescription() + "'" + ","
+                + " idCat = '" + objTmpEvents.getCategory().getIdCat() + "'" + ","
+                + " idPlace = '" + objTmpEvents.getPlace().getIdPlace()
+                + "' where idEvent = '" + objEvents.getIdEvents() + "'";
+
         intRetorno = st.executeUpdate(Sentencia);
+        objDATConexion.cerrarConexion();
         return intRetorno;
-        
+
     }
-    
+
     // Metodo que permite eliminar un evento
-    public int deleteEvent(Events objEvent) throws SQLException, ClassNotFoundException{
-        int intRetorno=0;
-        Statement st = c.abrirConexion().createStatement();
-        String Sentencia = "DELETE FROM Event where idEvent = '" + objEvent.getIdEvents()+"'"; 
+    public int deleteEvent(Events objEvent) throws SQLException, ClassNotFoundException {
+        DATConexion objDATConexion = new DATConexion();
+        int intRetorno = 0;
+        Statement st = objDATConexion.abrirConexion().createStatement();
+        String Sentencia = "DELETE FROM Event where idEvent = '" + objEvent.getIdEvents() + "'";
         intRetorno = st.executeUpdate(Sentencia);
+        objDATConexion.cerrarConexion();
         return intRetorno;
     }
-    
+
     // Metodo para listar los eventos 
-    public ResultSet listEventsWhereState(int targetState)  throws ClassNotFoundException, SQLException{
-        
-        
-        Statement st = c.abrirConexion().createStatement();
-        String Sentencia = String.format("SELECT * FROM event WHERE event.idState = "+targetState);
+    public ResultSet listEventsWhereState(int targetState) throws ClassNotFoundException, SQLException {
+        DATConexion objDATConexion = new DATConexion();
+
+        Statement st = objDATConexion.abrirConexion().createStatement();
+        String Sentencia = String.format("SELECT * FROM event WHERE event.idState = " + targetState);
         ResultSet rs = st.executeQuery(Sentencia);
+        objDATConexion.cerrarConexion();
         return rs;
- 
-    
+
     }
-    
+
     // Metodo para actualizar el estado del evento 
-    public int updateState(Events objEvents) throws SQLException, ClassNotFoundException{
-        int intRetorno=0;
-        Statement st = c.abrirConexion().createStatement();
-        String Sentencia = "UPDATE EVENT set idState = '" +objEvents.getState().getState() + 
-                "' where idEvent = '" + objEvents.getIdEvents()+"'";
-        
+    public int updateState(Events objEvents) throws SQLException, ClassNotFoundException {
+        DATConexion objDATConexion = new DATConexion();
+        int intRetorno = 0;
+        Statement st = objDATConexion.abrirConexion().createStatement();
+        String Sentencia = "UPDATE EVENT set idState = '" + objEvents.getState().getState()
+                + "' where idEvent = '" + objEvents.getIdEvents() + "'";
+
         intRetorno = st.executeUpdate(Sentencia);
+        objDATConexion.cerrarConexion();
         return intRetorno;
-        
+
     }
-    
+
     // Metodo para listar los eventos 
-    public ResultSet listEventsCategory(int targetState,int idCat)  throws ClassNotFoundException, SQLException{
-        
-        Statement st = c.abrirConexion().createStatement();
-        String Sentencia = String.format("SELECT * FROM event WHERE event.idState = "+targetState+" and idCat = "+idCat);
+    public ResultSet listEventsCategory(int targetState, int idCat) throws ClassNotFoundException, SQLException {
+        DATConexion objDATConexion = new DATConexion();
+        Statement st = objDATConexion.abrirConexion().createStatement();
+        String Sentencia = String.format("SELECT * FROM event WHERE event.idState = " + targetState + " and idCat = " + idCat);
         ResultSet rs = st.executeQuery(Sentencia);
+        objDATConexion.cerrarConexion();
         return rs;
- 
+
     }
-    
+
     /// Metodo para ecnontrar un evento =por su id
-    public ResultSet findEventById(int targetId) throws ClassNotFoundException, SQLException{
-        
-        Statement st = c.abrirConexion().createStatement();
-        String Sentencia = String.format("SELECT * FROM event WHERE event.idEvent = "+targetId);
+    public ResultSet findEventById(int targetId) throws ClassNotFoundException, SQLException {
+        DATConexion objDATConexion = new DATConexion();
+        Statement st = objDATConexion.abrirConexion().createStatement();
+        String Sentencia = String.format("SELECT * FROM event WHERE event.idEvent = " + targetId);
         ResultSet rs = st.executeQuery(Sentencia);
+        objDATConexion.cerrarConexion();
         return rs;
-    
+
     }
-    
-    
 
-
-    
 }

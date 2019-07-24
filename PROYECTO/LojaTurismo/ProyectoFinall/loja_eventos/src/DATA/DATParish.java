@@ -11,30 +11,33 @@ import java.sql.Statement;
 
 /*
 Autor: Grupo2
-*/
+ */
 public class DATParish {
-    DATConexion c = new DATConexion();
-    
+
     // Metodo que permite obtener todas las parroquias desde la DB
     public ResultSet getParishes() throws SQLException {
+        DATConexion objDATConexion = new DATConexion();
         try {
-            Statement consulta = c.abrirConexion().createStatement();
+            Statement consulta = objDATConexion.abrirConexion().createStatement();
             String sql = "SELECT * FROM parish";
+            objDATConexion.cerrarConexion();
             return consulta.executeQuery(sql);
         } catch (ClassNotFoundException | SQLException e) {
             System.err.println(e);
+            objDATConexion.cerrarConexion();
             return null;
         }
-   
+
     }
-    
+
     // Metodo que permite obtener una parroquia por su id
-    public ResultSet findParish(String idParish) throws ClassNotFoundException, SQLException
-    {
-        Statement st = c.abrirConexion().createStatement();
-        String Sentencia = "SELECT * FROM PARISH WHERE IDPARISH= " + idParish ;
+    public ResultSet findParish(String idParish) throws ClassNotFoundException, SQLException {
+        DATConexion objDATConexion = new DATConexion();
+        Statement st = objDATConexion.abrirConexion().createStatement();
+        String Sentencia = "SELECT * FROM PARISH WHERE IDPARISH= " + idParish;
         ResultSet rs = st.executeQuery(Sentencia);
+        objDATConexion.cerrarConexion();
         return rs;
     }
-    
+
 }
