@@ -11,32 +11,29 @@ import java.sql.Statement;
 
 /*
 Autor: Grupo2
- */
+*/
 public class DATNeighborhood {
-
+    DATConexion c = new DATConexion();
+    
     // Metodo que permite obetener todos los barrios de la DB
     public ResultSet getNeighborhoods() throws SQLException {
-        DATConexion objDATConexion = new DATConexion();
         try {
-            Statement consulta = objDATConexion.abrirConexion().createStatement();
+            Statement consulta = c.abrirConexion().createStatement();
             String sql = "SELECT * FROM neighborhood";
-            objDATConexion.cerrarConexion();
             return consulta.executeQuery(sql);
         } catch (Exception e) {
             System.err.println(e);
-            objDATConexion.cerrarConexion();
             return null;
         }
     }
-
+    
     // Metodo que permite obtener el barrio buscado por su id
-    public ResultSet findNeighborhood(String idNeighborhood) throws ClassNotFoundException, SQLException {
-        DATConexion objDATConexion = new DATConexion();
-        Statement st = objDATConexion.abrirConexion().createStatement();
-        String Sentencia = "SELECT * FROM NEIGHBORHOOD WHERE IDNEIGHBORHOOD = " + idNeighborhood;
+    public ResultSet findNeighborhood(String idNeighborhood) throws ClassNotFoundException, SQLException
+    {
+        Statement st = c.abrirConexion().createStatement();
+        String Sentencia = "SELECT * FROM NEIGHBORHOOD WHERE IDNEIGHBORHOOD = " + idNeighborhood ;
         ResultSet rs = st.executeQuery(Sentencia);
-        objDATConexion.cerrarConexion();
         return rs;
     }
-
+    
 }

@@ -14,16 +14,14 @@ Autor: Grupo2
 */
 public class DATAdmin {
     
-    
+    DATConexion c = new DATConexion();
     
     // Metodo que permite buscar el administrador por su usuario
     public ResultSet findIdentification(String user) throws ClassNotFoundException, SQLException
     {
-        DATConexion objDATConexion = new DATConexion();
-        Statement st = objDATConexion.abrirConexion().createStatement();
+        Statement st = c.abrirConexion().createStatement();
         String Sentencia = String.format("SELECT * FROM admin WHERE user = '%s'", user);
         ResultSet rs = st.executeQuery(Sentencia);
-        objDATConexion.cerrarConexion();
         return rs;
     }
     
