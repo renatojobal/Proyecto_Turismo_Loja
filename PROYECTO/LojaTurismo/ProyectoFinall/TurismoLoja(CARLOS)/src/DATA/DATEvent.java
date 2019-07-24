@@ -96,7 +96,16 @@ public class DATEvent {
     
     }
     
-
+    public int updateState(Events objEvents) throws SQLException, ClassNotFoundException{
+        int intRetorno=0;
+        Statement st = c.abrirConexion().createStatement();
+        String Sentencia = "UPDATE EVENT set idState = '" +objEvents.getState().getState() + 
+                "' where idEvent = '" + objEvents.getIdEvents()+"'";
+        
+        intRetorno = st.executeUpdate(Sentencia);
+        return intRetorno;
+        
+    }
     
     // Metodo para listar los eventos 
     public ResultSet listEventsCategory(int targetState,int idCat)  throws ClassNotFoundException, SQLException{

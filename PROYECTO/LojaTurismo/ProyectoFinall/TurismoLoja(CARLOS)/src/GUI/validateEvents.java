@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,8 +23,10 @@ public class validateEvents extends javax.swing.JFrame {
 
     ArrayList<Events> arrayEvents = new ArrayList();
     BLEvent objBLEvents = new BLEvent();
-    
+    Events objEvents = new Events();
+
     int rowSel = -1;
+
     /**
      * Creates new form crearEvento
      */
@@ -69,9 +72,9 @@ public class validateEvents extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEventos = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jButtonListar = new javax.swing.JButton();
+        jButtonAprobar = new javax.swing.JButton();
+        jButtonRechazar = new javax.swing.JButton();
         jButtonRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -203,21 +206,31 @@ public class validateEvents extends javax.swing.JFrame {
         jLabel4.setText("Validar Eventos");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 15, -1, -1));
 
-        jButton1.setText("Listar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonListar.setText("Listar");
+        jButtonListar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonListarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 230, 110, -1));
+        getContentPane().add(jButtonListar, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 230, 110, -1));
 
-        jButton2.setText("Aprobar");
-        jButton2.setEnabled(false);
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 270, 110, -1));
+        jButtonAprobar.setText("Aprobar");
+        jButtonAprobar.setEnabled(false);
+        jButtonAprobar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAprobarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButtonAprobar, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 270, 110, -1));
 
-        jButton3.setText("Rechazar");
-        jButton3.setEnabled(false);
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 310, 110, -1));
+        jButtonRechazar.setText("Rechazar");
+        jButtonRechazar.setEnabled(false);
+        jButtonRechazar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRechazarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButtonRechazar, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 310, 110, -1));
 
         jButtonRegresar.setText("Regresar");
         jButtonRegresar.addActionListener(new java.awt.event.ActionListener() {
@@ -239,19 +252,21 @@ public class validateEvents extends javax.swing.JFrame {
         this.jDateChooser.setDate(Date.valueOf(tblEventos.getValueAt(rowSel, 2).toString()));
         this.jComboBoxHour.setSelectedItem(arrayEvents.get(rowSel).getHour());
         this.jComboBoxMinute.setSelectedItem(arrayEvents.get(rowSel).getMinutes());
-        this.cbmCategory.addItem(tblEventos.getValueAt(rowSel, 3).toString());
-        this.txtDescription.setText(tblEventos.getValueAt(rowSel, 4).toString());
+        this.cbmCategory.addItem(tblEventos.getValueAt(rowSel, 4).toString());
+        this.txtDescription.setText(tblEventos.getValueAt(rowSel, 3).toString());
         this.txtPrinStr.setText(tblEventos.getValueAt(rowSel, 5).toString());
         this.txtSecStr.setText(tblEventos.getValueAt(rowSel, 6).toString());
         this.txtReferency.setText(tblEventos.getValueAt(rowSel, 7).toString());
         this.txtnNeighborhod.setText(tblEventos.getValueAt(rowSel, 8).toString());
+        this.jButtonAprobar.setEnabled(true);
+        this.jButtonRechazar.setEnabled(true);
     }//GEN-LAST:event_tblEventosMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonListarActionPerformed
         // Listar eventos
         this.uploadTable();
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+
+    }//GEN-LAST:event_jButtonListarActionPerformed
 
     private void jButtonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegresarActionPerformed
         try {
@@ -265,23 +280,57 @@ public class validateEvents extends javax.swing.JFrame {
             Logger.getLogger(validateEvents.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonRegresarActionPerformed
-   
 
-    public void uploadTable(){
-            // Listar todos los datos
+    private void jButtonAprobarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAprobarActionPerformed
+        // TODO add your handling code here:
+        if (rowSel != -1) {
+            objEvents = arrayEvents.get(rowSel);
+            try {
+                objBLEvents.updateState(objEvents, 2);
+                JOptionPane.showMessageDialog(null, "El evento ha sido APROBADO");
+                cleanText();
+                this.jButtonListarActionPerformed(evt);
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(validateEvents.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No ha seleccionado nada");
+        }
+    }//GEN-LAST:event_jButtonAprobarActionPerformed
+
+    private void jButtonRechazarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRechazarActionPerformed
+        // TODO add your handling code here:
+        if (rowSel != -1) {
+            objEvents = arrayEvents.get(rowSel);
+            try {
+                objBLEvents.updateState(objEvents, 3);
+                JOptionPane.showMessageDialog(null, "El evento ha sido RECHAZADO");
+                cleanText();
+                this.jButtonListarActionPerformed(evt);
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(validateEvents.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No ha seleccionado nada");
+        }
+    }//GEN-LAST:event_jButtonRechazarActionPerformed
+
+    public void uploadTable() {
+        // Listar todos los datos
         this.uploadArrayEvents();
         tblEventos.removeAll();
-        Object columnas[] = {"Nombre", "Costo", "Fecha", "Descripcion", "Categoria", "Calle Principal", "Calle Secundaria", "Referencia","Barrio"};
+        Object columnas[] = {"Nombre", "Costo", "Fecha", "Descripcion", "Categoria", "Calle Principal", "Calle Secundaria", "Referencia", "Barrio"};
         DefaultTableModel modelo = new DefaultTableModel(null, columnas);
         tblEventos.setModel(modelo);
-        for(Events event: arrayEvents){
-            String newValor[] = {event.getName(), event.getCost()+"", event.getDate()+"", event.getDescription(), event.getCategory().getCategoryName(),
-                event.getPlace().getPrincipalStreet(), event.getPlace().getSecondaryStreet(), event.getPlace().getReference(),event.getPlace().getNeighborhood().getName()};
+        for (Events event : arrayEvents) {
+            String newValor[] = {event.getName(), event.getCost() + "", event.getDate() + "", event.getDescription(), event.getCategory().getCategoryName(),
+                event.getPlace().getPrincipalStreet(), event.getPlace().getSecondaryStreet(), event.getPlace().getReference(), event.getPlace().getNeighborhood().getName()};
 
             modelo.addRow(newValor);
 
         }
     }
+
     /**
      * @param args the command line arguments
      */
@@ -319,21 +368,38 @@ public class validateEvents extends javax.swing.JFrame {
             }
         });
     }
-    
-    
+
     // Metodo para actualizar la varible local de arrayEvents
-    public void uploadArrayEvents(){
+    public void uploadArrayEvents() {
         this.arrayEvents = objBLEvents.listEventsWhereState(1);
     }
-   
-            
+
+    public void cleanText() {
+        this.cbmCategory.removeAllItems();
+        this.txtDescription.setText("");
+        this.txtNombre.setText("");
+        this.SpnCosto.setValue(0);
+        this.jDateChooser.setDate(new java.util.Date());
+        this.jComboBoxHour.setSelectedIndex(0);
+        this.jComboBoxMinute.setSelectedIndex(0);
+        this.txtDescription.setText("");
+        this.txtPrinStr.setText("");
+        this.txtSecStr.setText("");
+        this.txtReferency.setText("");
+        this.txtnNeighborhod.setText("");
+        this.jButtonAprobar.setEnabled(false);
+        this.jButtonRechazar.setEnabled(false);
+
+    }
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner SpnCosto;
     private javax.swing.JComboBox<String> cbmCategory;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButtonAprobar;
+    private javax.swing.JButton jButtonListar;
+    private javax.swing.JButton jButtonRechazar;
     private javax.swing.JButton jButtonRegresar;
     private javax.swing.JComboBox<String> jComboBoxHour;
     private javax.swing.JComboBox<String> jComboBoxMinute;

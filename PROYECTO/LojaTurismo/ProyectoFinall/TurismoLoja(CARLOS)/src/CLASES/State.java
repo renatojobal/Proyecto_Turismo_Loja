@@ -20,7 +20,12 @@ public class State {
         this.state = state;
         this.description = observation;
     }
-
+    
+    public void updateState(int state){
+        this.state = state;
+    }
+                
+                
     public int getIdState() {
         return idState;
     }
@@ -45,13 +50,6 @@ public class State {
         this.description = observation;
     }
 
-    @Override
-    public String toString() {
-        return String.format("%s", getDescription());
-    }
-
-    
-    
     
     
 

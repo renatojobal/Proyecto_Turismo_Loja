@@ -139,6 +139,7 @@ public class Login extends javax.swing.JFrame {
             } catch (ClassNotFoundException | SQLException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
+            System.out.println(objAdmin);   
             if (objAdmin.getIdAdmin() != 0) {
                 objAdmin = objBLAdmin.ValidatePassword(objAdmin, String.valueOf(this.jPassword.getPassword()));
                 if (objAdmin != null) {
@@ -147,10 +148,12 @@ public class Login extends javax.swing.JFrame {
                     objValidateEvents.setVisible(true);
                     this.setVisible(false);
                 } else {
+                    System.err.println("No se obtuvo ningun objeto admin");
                     JOptionPane.showMessageDialog(null, "La identificacion o contraseña no coinciden con ninguna cuenta\n\n"
                             + "Registrate para crea una cuenta");
                 }
             } else {
+                System.out.println("");
                 JOptionPane.showMessageDialog(null, "La identificacion o contraseña no coinciden con ninguna cuenta\n\n"
                         + "Registrate para crea una cuenta");
             }
@@ -165,9 +168,10 @@ public class Login extends javax.swing.JFrame {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
 
             }
-
+            System.out.println(objClient);
             if (objClient.getIdClient() != 0) {
                 objClient = objBLClient.ValidatePassword(objClient, String.valueOf(this.jPassword.getPassword()));
+                System.out.println(objClient);
                 if (objClient != null) {
                     GlobalVariables.loggedClient = objClient;
                     OptionClient objOptionClient = new OptionClient();

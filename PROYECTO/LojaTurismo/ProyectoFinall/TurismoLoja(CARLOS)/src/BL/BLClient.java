@@ -149,10 +149,11 @@ public class BLClient {
         return objAuxClient;
     }
 
-    public Client ValidatePassword(Client objClient, String password) {
-        
+    public Client ValidatePassword(Client objClient, String targetPassword) {
+        System.out.println(objClient.getPassword());
+        System.out.println(objBLEncrypt.getEncrypt(targetPassword));
 
-        if (objClient.getPassword().equals(objBLEncrypt.getEncrypt(password))) {
+        if (objClient.getPassword().equals(objBLEncrypt.getEncrypt(targetPassword))) {
             return objClient;
         }
         return null;

@@ -19,6 +19,7 @@ import java.util.ArrayList;
  */
 public class BLAdmin {
     DATA.DATAdmin objDatAdmin = new DATAdmin();
+    BLEncrypt objBLEncrypt = new BLEncrypt();
     
     public Admin findAdminIdentificationDB(String user) throws ClassNotFoundException, SQLException 
     {
@@ -47,9 +48,9 @@ public class BLAdmin {
         return objAdmin;
     }
     
-    public Admin ValidatePassword(Admin objAdmin, String user) {
-       
-        if (objAdmin.getPassword().equals(user)) {
+    public Admin ValidatePassword(Admin objAdmin, String targetPassword) {
+        
+        if (objAdmin.getPassword().equals(objBLEncrypt.getEncrypt(targetPassword))) {
             return objAdmin;
         }
         return null;

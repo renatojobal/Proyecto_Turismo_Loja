@@ -95,7 +95,7 @@ public class BLEvent {
         return ArrayEvents;
     }
 
-    public void insertEvent(Client objClient) throws ClassNotFoundException, SQLException {
+    public static void insertEvent(Client objClient) throws ClassNotFoundException, SQLException {
         objPlace = objClient.getArrayEvents().get(objClient.getArrayEvents().size() - 1).getPlace();
         objBLPlace.insertPlaceDB(objPlace);
         objClient.getArrayEvents().get(objClient.getArrayEvents().size() - 1).setPlace(objBLPlace.finLastRowDB());
@@ -156,7 +156,7 @@ public class BLEvent {
                 Category category = null;
                 Place place = null;
                 State state =null;
-                
+                int idState = rs.getInt("idState");
                 int idCat = rs.getInt("idCat");
                 int idPlace = rs.getInt("idPlace");
     
@@ -164,6 +164,7 @@ public class BLEvent {
                 // Cargamos los atributos de categoria, lugar y cliente por su id
                 category =  objBLCategory.findCategoryDB(String.valueOf(idCat));
                 place = objBLPlace.findPlaceDB(String.valueOf(idPlace));
+                state = objBLState.findStateDB(String.valueOf(idState));
                 Events objEvents = new Events(idEvents, name, cost, date, hour, minutes, description, category, place, state);
                 arrayEvents.add(objEvents);
             }
@@ -214,6 +215,12 @@ public class BLEvent {
             //System.out.println(e);
         }
         return null;
+    }
+    
+    public Events updateState(Events objEvents, int state)throws ClassNotFoundException, SQLException {
+        objEvents.getState().updateState(state);
+        objDATEvents.updateState(objEvents);
+        return objEvents;
     }
 
 }

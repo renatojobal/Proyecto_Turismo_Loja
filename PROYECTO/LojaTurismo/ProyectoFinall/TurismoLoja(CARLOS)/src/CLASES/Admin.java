@@ -52,5 +52,11 @@ public class Admin {
         this.arrayEvents = arrayEvents;
     }
 
+    @Override
+    public String toString() {
+        return "Admin{" + "idAdmin=" + idAdmin + ", user=" + user + ", password=" + password + ", arrayEvents=" + arrayEvents + '}';
+    }
+
+    
     
 }
